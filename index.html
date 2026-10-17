@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Schibsted+Grotesk:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   /* Identité Rallizo validée le 16/10/2026 */
   :root {
@@ -51,7 +52,9 @@
   .btn svg { width: 20px; height: 20px; }
 
   /* Dossard d'exemple */
-  .bib { background: #fff; border: 3px solid var(--encre); border-radius: 18px; overflow: hidden; max-width: 420px; width: 100%; justify-self: center; transform: rotate(1.5deg); }
+  .bib-zone { max-width: 420px; width: 100%; justify-self: center; }
+  .bib-tilt { transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+  .bib { background: #fff; border: 3px solid var(--encre); border-radius: 18px; overflow: hidden; transform: rotate(1.5deg); }
   .bib-h { background: var(--rallye); display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; font-family: var(--fm); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
   .pins { display: flex; gap: 7px; } .pins i { width: 10px; height: 10px; border: 2.5px solid var(--encre); border-radius: 50%; display: block; }
   .bib-b { padding: 16px 16px 18px; display: grid; gap: 10px; }
@@ -63,7 +66,14 @@
   .stats b { font-family: var(--fm); font-weight: 500; font-size: 22px; } .stats span { font-family: var(--fm); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--brume); }
   .meta { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--brume); }
   .lvl { background: var(--allier); color: var(--craie); font-family: var(--fm); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; border-radius: 99px; }
-  .join { background: var(--rallye); border: 2.5px solid var(--encre); border-radius: 10px; text-align: center; padding: 9px; font-family: var(--fd); font-weight: 800; font-size: 17px; }
+  .join { background: var(--rallye); border: 2.5px solid var(--encre); border-radius: 10px; text-align: center; padding: 9px; font-family: var(--fd); font-weight: 800; font-size: 17px; position: relative; overflow: hidden; }
+  #inscrits { display: inline-block; }
+
+  /* Piste : deux coureurs qui traversent la bande bleue */
+  .track { position: relative; height: 22px; margin: 0 0 28px; border-bottom: 2px dashed rgba(243, 245, 241, .3); }
+  .track .duo { position: absolute; left: 0; bottom: 4px; height: 16px; }
+  .track .duo i { width: 4px; height: 14px; background: var(--craie); }
+  .track .duo i + i { background: var(--rallye); }
 
   /* Bande "comment ça marchera" */
   .how { background: var(--allier); color: var(--craie); padding-block: 48px; }
@@ -86,9 +96,41 @@
     .steps { grid-template-columns: 1fr; gap: 20px; }
     .pros { grid-template-columns: 1fr; }
   }
+  @media (max-width: 380px) {
+    .chip { white-space: nowrap; font-size: 10.5px; letter-spacing: .08em; padding: 5px 10px; gap: 6px; }
+  }
+  /* Animations : rien ne bouge si le visiteur a demandé à réduire les animations */
   @media (prefers-reduced-motion: no-preference) {
     .bib { animation: arrive .7s cubic-bezier(.2, .8, .2, 1) both .15s; }
     @keyframes arrive { from { transform: rotate(4deg) translateY(16px); } to { transform: rotate(1.5deg); } }
+
+    /* Apparitions au chargement et au défilement (seulement si le JS tourne) */
+    .js .rv { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--d, 0s); }
+    .js .rv.in { opacity: 1; transform: none; }
+
+    /* Le surligneur jaune se pose sur « près de chez toi » */
+    h1 mark { background: linear-gradient(var(--rallye), var(--rallye)) no-repeat 0 0 / 0% 100%; animation: surligne .8s cubic-bezier(.6, 0, .2, 1) .6s forwards; }
+    @keyframes surligne { to { background-size: 100% 100%; } }
+
+    /* Le dossard flotte doucement */
+    .bib-zone { animation: flotte 5s ease-in-out 1s infinite; }
+    @keyframes flotte { 50% { transform: translateY(-8px); } }
+
+    /* Reflet sur « Je participe » et les boutons jaunes */
+    .join::after, .btn.primary::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%); transform: translateX(-100%); pointer-events: none; }
+    .join::after { animation: reflet 3.2s ease-in-out 1.5s infinite; }
+    .btn.primary { position: relative; overflow: hidden; }
+    .btn.primary:hover::after { animation: reflet .7s ease-out; }
+    @keyframes reflet { 0%, 60% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    .btn:active { transform: translateY(0) scale(.98); }
+
+    /* Le compteur saute quand quelqu'un s'inscrit */
+    #inscrits.pop { animation: pop .45s cubic-bezier(.3, 1.6, .5, 1); }
+    @keyframes pop { 40% { transform: scale(1.6); color: var(--depart); } }
+
+    /* Les coureurs traversent la piste */
+    .track .duo { animation: course 9s linear infinite; }
+    @keyframes course { from { left: 0; } to { left: calc(100% - 14px); } }
   }
 </style>
 </head>
@@ -104,9 +146,9 @@
 <main>
   <section class="wrap hero">
     <div>
-      <h1>Trouve avec qui courir, <mark>près de chez toi.</mark></h1>
-      <p class="lead">Rallizo réunira bientôt les sorties des clubs, des coachs et des coureurs de Vichy et alentours. Le site se construit en ce moment, avec les gens qui font courir la ville.</p>
-      <div class="actions">
+      <h1 class="rv">Trouve avec qui courir, <mark>près de chez toi.</mark></h1>
+      <p class="lead rv" style="--d:.2s">Rallizo réunira bientôt les sorties des clubs, des coachs et des coureurs de Vichy et alentours. Le site se construit en ce moment, avec les gens qui font courir la ville.</p>
+      <div class="actions rv" style="--d:.35s">
         <a class="btn primary" href="https://www.instagram.com/rallizo_/" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
           Suivre l'aventure sur Instagram
@@ -114,6 +156,7 @@
       </div>
     </div>
 
+    <div class="bib-zone"><div class="bib-tilt">
     <div class="bib" aria-label="Exemple fictif de sortie">
       <div class="bib-h"><span>Publiée sur Rallizo</span><span class="pins"><i></i><i></i></span></div>
       <div class="bib-b">
@@ -121,25 +164,27 @@
         <div class="bib-t">Footing des bords d'Allier</div>
         <span class="org">Organisée par <b>Sam, un coureur de Bellerive</b></span>
         <div class="stats"><div><b>5,0</b><span>km</span></div><div><b>6'30</b><span>min/km</span></div><div><b>08:30</b><span>samedi</span></div></div>
-        <div class="meta"><span class="lvl">Débutants</span><span><b style="color:var(--encre)">4</b> / 12 inscrits</span></div>
+        <div class="meta"><span class="lvl">Débutants</span><span><b id="inscrits" style="color:var(--encre)">4</b> / 12 inscrits</span></div>
         <div class="join">Je participe</div>
       </div>
     </div>
+    </div></div>
   </section>
 
   <section class="how">
     <div class="wrap">
-      <h2>Comment ça marchera</h2>
+      <h2 class="rv">Comment ça marchera</h2>
+      <div class="track" aria-hidden="true"><span class="duo"><i></i><i></i></span></div>
       <div class="steps">
-        <div class="step"><b>1</b><h3>On publie une sortie</h3><p>Un club, un coach ou un coureur indique le lieu, l'heure, la distance, l'allure et le niveau.</p></div>
-        <div class="step"><b>2</b><h3>Tu trouves la tienne</h3><p>Près de chez toi, à ton rythme. Tu t'inscris en un clic.</p></div>
-        <div class="step"><b>3</b><h3>On court ensemble</h3><p>Et parfois, on termine au café.</p></div>
+        <div class="step rv"><b>1</b><h3>On publie une sortie</h3><p>Un club, un coach ou un coureur indique le lieu, l'heure, la distance, l'allure et le niveau.</p></div>
+        <div class="step rv" style="--d:.15s"><b>2</b><h3>Tu trouves la tienne</h3><p>Près de chez toi, à ton rythme. Tu t'inscris en un clic.</p></div>
+        <div class="step rv" style="--d:.3s"><b>3</b><h3>On court ensemble</h3><p>Et parfois, on termine au café.</p></div>
       </div>
     </div>
   </section>
 
   <section class="wrap pros">
-    <div>
+    <div class="rv">
       <h2>Vous faites courir Vichy ?</h2>
       <p>Clubs, coachs, salles, magasins, cafés : nous cherchons quelques partenaires pour tester les premières sorties. Sans frais, sans engagement.</p>
     </div>
@@ -150,6 +195,43 @@
 <footer>
   <div class="wrap"><span>Rallizo · Vichy, 2026 · <a href="mailto:contact@rallizo.fr" style="color:inherit">contact@rallizo.fr</a></span><span>Projet en préparation : aucune sortie n'est encore programmée. · <a href="confidentialite.html" style="color:inherit">Confidentialité</a></span></div>
 </footer>
+
+<script>
+(() => {
+  const els = document.querySelectorAll('.rv');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    els.forEach(e => e.classList.add('in'));
+    return;
+  }
+
+  // Apparitions : chaque bloc arrive quand il entre à l'écran
+  const io = new IntersectionObserver(entrees => entrees.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .15 });
+  els.forEach(e => io.observe(e));
+
+  // Compteur du dossard d'exemple : 4, 5, 6... jusqu'à 9 puis on recommence
+  const n = document.getElementById('inscrits');
+  let v = 4;
+  setInterval(() => {
+    v = v >= 9 ? 4 : v + 1;
+    n.textContent = v;
+    n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
+  }, 2600);
+
+  // Le dossard s'incline vers la souris (ordinateur seulement)
+  const tilt = document.querySelector('.bib-tilt');
+  const zone = tilt.parentElement;
+  if (matchMedia('(hover: hover)').matches) {
+    zone.addEventListener('pointermove', e => {
+      const r = tilt.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      tilt.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
+    });
+    zone.addEventListener('pointerleave', () => { tilt.style.transform = ''; });
+  }
+})();
+</script>
 
 </body>
 </html>
