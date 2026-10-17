@@ -1,0 +1,80 @@
+/* Pages secondaires de rallizo.fr (pros, confidentialité). Même identité que index.html. */
+:root {
+  --craie: #F3F5F1; --allier: #0E4A52; --encre: #10292E; --rallye: #F5C21B; --depart: #E0452E; --brume: #566A6C; --ligne: #D6DEDA;
+  --fd: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --fb: "Schibsted Grotesk", "Segoe UI", Helvetica, Arial, sans-serif;
+  --fm: "IBM Plex Mono", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--craie); color: var(--encre); font-family: var(--fb); font-size: 17px; line-height: 1.55; min-height: 100vh; display: flex; flex-direction: column; }
+.wrap { width: 100%; max-width: 1040px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
+a { color: var(--allier); }
+
+header { padding-block: 28px; }
+header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.wm { font-family: var(--fd); font-weight: 900; font-style: italic; font-stretch: 118%; letter-spacing: -.03em; line-height: .9; font-size: 30px; text-decoration: none; color: var(--encre); }
+.wm .ll { color: var(--allier); }
+.chip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--fm); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; background: #fff; border: 1px solid var(--ligne); padding: 6px 12px; border-radius: 99px; }
+.chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--rallye); box-shadow: 0 0 0 3px rgba(245, 194, 27, .25); }
+
+main { flex: 1; }
+h1 { font-family: var(--fd); font-weight: 900; font-style: italic; font-stretch: 112%; letter-spacing: -.025em; line-height: .98; font-size: clamp(38px, 6vw, 64px); margin: 0 0 18px; text-wrap: balance; }
+h1 mark { background: var(--rallye); color: var(--encre); padding: 0 .12em; }
+h2 { font-family: var(--fd); font-weight: 800; font-stretch: 108%; font-size: 24px; line-height: 1.15; margin: 0 0 12px; }
+.lead { font-size: clamp(17px, 2vw, 19px); color: var(--brume); max-width: 58ch; margin: 0; }
+.eyebrow { font-family: var(--fm); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--brume); display: block; margin-bottom: 8px; }
+
+footer { border-top: 1px solid var(--ligne); padding-block: 22px; font-size: 13px; color: var(--brume); }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+footer a { color: var(--brume); }
+
+/* Page pros */
+.intro { padding-block: 24px 40px; }
+.pros-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 40px; align-items: start; padding-bottom: 64px; }
+.fiches { display: grid; gap: 12px; }
+.fiche { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #fff; border: 2px solid var(--encre); border-radius: 14px; padding: 14px 16px; text-decoration: none; color: var(--encre); transition: transform .15s ease; }
+.fiche:hover { transform: translateY(-2px); }
+.fiche:focus-visible { outline: 3px solid var(--allier); outline-offset: 3px; }
+.fiche b { font-family: var(--fd); font-size: 18px; display: block; }
+.fiche span { font-size: 14px; color: var(--brume); }
+.fiche svg { flex: none; width: 22px; height: 22px; }
+.note { font-size: 14px; color: var(--brume); margin: 16px 0 0; }
+
+/* Formulaire Brevo restylé */
+.rz-form { background: #fff; border: 3px solid var(--encre); border-radius: 18px; padding: 24px; }
+.rz-form .sib-form, .rz-form #sib-container { background: transparent !important; border: 0 !important; padding: 0 !important; max-width: none !important; text-align: left !important; }
+.rz-form .sib-form-container { padding: 0; }
+.rz-form form { display: grid; gap: 18px; }
+.rz-form .entry__label { display: block; font-family: var(--fd) !important; font-weight: 800 !important; font-size: 16.5px !important; color: var(--encre) !important; margin-bottom: 6px; line-height: 1.3; }
+.rz-form .entry__label[data-required]::after { content: " *"; color: var(--depart); }
+.rz-form .input, .rz-form textarea { width: 100%; font: inherit; font-size: 16px; color: var(--encre); background: var(--craie); border: 2px solid var(--ligne); border-radius: 10px; padding: 11px 13px; }
+.rz-form .input:focus, .rz-form textarea:focus { outline: none; border-color: var(--allier); background: #fff; }
+.rz-form .input::placeholder { color: #8A9A9B; }
+.rz-form .entry__specification { display: block; font-size: 13px; color: var(--brume); margin-top: 6px; }
+.rz-form .entry__error { font-size: 14px; margin-top: 6px; }
+.rz-form .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.rz-form .entry__choice label { display: inline-flex; align-items: center; gap: 8px; background: var(--craie); border: 2px solid var(--ligne); border-radius: 99px; padding: 8px 14px; cursor: pointer; font-size: 15.5px; }
+.rz-form .entry__choice label:has(input:checked) { background: var(--rallye); border-color: var(--encre); font-weight: 600; }
+.rz-form .entry__choice label:focus-within { outline: 3px solid var(--allier); outline-offset: 2px; }
+.rz-form .optin .entry__choice label, .rz-form .optin .entry__choice label:has(input:checked) { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; font-weight: 400; cursor: pointer; background: none; border: 0; border-radius: 0; padding: 0; }
+.rz-form .optin input { margin-top: 3px; }
+.rz-form .optin p { margin: 0; }
+.rz-form .sib-form-block__button { font-family: var(--fd); font-weight: 800; font-size: 18px; color: var(--encre); background: var(--rallye); border: 2px solid var(--encre); border-radius: 12px; padding: 14px 24px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; }
+.rz-form .sib-form-block__button:focus-visible { outline: 3px solid var(--allier); outline-offset: 3px; }
+.rz-form .sib-form-message-panel { border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-size: 15.5px; }
+.rz-form #success-message { background: #E6F2EC; border: 2px solid #1F7A4D; color: #134D31; }
+.rz-form #error-message { background: #FDECEA; border: 2px solid var(--depart); color: #7A1F12; }
+.rz-form .sib-form-message-panel svg { width: 20px; height: 20px; flex: none; }
+.hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; overflow: hidden; }
+
+/* Page texte (confidentialité) */
+.doc { max-width: 720px; padding-block: 16px 64px; }
+.doc h2 { margin-top: 32px; }
+.doc p, .doc li { color: var(--encre); }
+.doc ul { padding-left: 22px; }
+
+@media (max-width: 820px) {
+  .pros-grid { grid-template-columns: 1fr; gap: 32px; }
+  .rz-form { padding: 18px; }
+}
