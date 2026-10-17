@@ -31,6 +31,12 @@
   .wm .ll { color: var(--allier); }
   .chip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--fm); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; background: #fff; border: 1px solid var(--ligne); padding: 6px 12px; border-radius: 99px; }
   .chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--rallye); box-shadow: 0 0 0 3px rgba(245, 194, 27, .25); }
+  .chip.live::before { display: none; }
+  .duo { display: inline-flex; align-items: flex-end; gap: 2px; height: 13px; padding-top: 2px; }
+  .duo i { width: 3px; height: 11px; border-radius: 1px; background: var(--allier); transform: skewX(-16deg); animation: foulee .32s ease-in-out infinite alternate; }
+  .duo i + i { background: var(--rallye); animation-delay: -.32s; }
+  @keyframes foulee { from { transform: skewX(-16deg) translateY(0); } to { transform: skewX(-16deg) translateY(-3px); } }
+  @media (prefers-reduced-motion: reduce) { .duo i { animation: none; } }
 
   main { flex: 1; }
   .hero { padding-block: 40px 56px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; }
@@ -91,7 +97,7 @@
 <header>
   <div class="wrap">
     <a class="wm" href="./" aria-label="Rallizo, accueil">ra<span class="ll">ll</span>izo</a>
-    <span class="chip">Site en construction</span>
+    <span class="chip live"><span class="duo" aria-hidden="true"><i></i><i></i></span>Site en construction</span>
   </div>
 </header>
 
