@@ -34,7 +34,8 @@ footer a { color: var(--brume); }
 .pros-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 40px; align-items: start; padding-bottom: 64px; }
 .fiches { display: grid; gap: 12px; }
 .fiche { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #fff; border: 2px solid var(--encre); border-radius: 14px; padding: 14px 16px; text-decoration: none; color: var(--encre); transition: transform .15s ease; }
-.fiche:hover { transform: translateY(-2px); }
+a.fiche:hover { transform: translateY(-2px); }
+div.fiche { border-style: dashed; border-color: var(--brume); }
 .fiche:focus-visible { outline: 3px solid var(--allier); outline-offset: 3px; }
 .fiche b { font-family: var(--fd); font-size: 18px; display: block; }
 .fiche span { font-size: 14px; color: var(--brume); }
